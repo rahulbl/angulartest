@@ -1,0 +1,104 @@
+<!doctype html>
+<html ng-app="mainApp">
+<head>
+<meta charset="utf-8">
+<title>Untitled Document</title>
+<base href="/angular-js/" />
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular-resource.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular-route.min.js"></script>
+</head>
+
+<body>
+<ul ng-controller="NavCtrl">
+<li ng-class="{active: $location.path() == '/home.html'}"><a href="/angular-js/home.html" >Home</a></li>
+<li ng-class="{active: $location.path() == '/about.html'}"><a href="/angular-js/about.html" >about</a></li>
+<li ng-class="{active: $location.path() == '/contact.html'}"><a href="/angular-js/contact.html" >contact</a></li>
+</ul>
+
+<div ng-view></div>
+<script>
+var mainApp = angular.module("mainApp", ['ngRoute']);
+         mainApp.config(['$routeProvider', '$locationProvider', function($routeProvider,  $locationProvider) {
+            $routeProvider
+
+            .when('/home.html', {
+                templateUrl : 'view/home.html',
+                controller : 'mainController1'
+            })
+            .when('/about.html', {
+                templateUrl : 'view/about.html',
+                controller : 'mainController2'
+            })
+            .when('/contact.html', {
+                templateUrl : 'view/contact.html',
+                controller : 'mainController3'
+            }) .otherwise({
+            redirectTo: "/home.html"
+        });
+
+        // use the HTML5 History API
+        $locationProvider.html5Mode(true).hashPrefix('!');
+
+
+            
+    }]);
+	
+
+    mainApp.controller('mainController1', function ($scope) {
+        $scope.message = "Hello, world1";
+    })
+    .controller('mainController2', function ($scope) {
+        $scope.now = new Date();
+    })
+	 .controller('mainController3', function ($scope) {
+        $scope.message = "Hello, world3";
+    });
+
+    mainApp.controller('NavCtrl', ['$scope', '$location', function($scope, $location) {
+    $scope.$location = $location;
+  }]);
+
+
+
+
+    // 'use strict';
+    // angular.module('myApp.controllers', []).
+    //   controller('NavCtrl', ['$scope', '$location', function($scope, $location) {
+    //     $scope.items = [
+    //       {path: '/view1', title: 'View 1'},
+    //       {path: '/view2', title: 'View 2'},
+    //     ];
+    //     $scope.isActive = function(item) {
+    //       if (item.path == $location.path()) {
+    //         return true;
+    //       }
+    //       return false;
+    //     };
+    //   }])
+    //   .controller('MyCtrl1', [function() {
+    //   }])
+    //   .controller('MyCtrl2', [function() {
+    //   }]);
+
+
+/*<ul ng-controller="NavCtrl" class="menu">
+<li ng-repeat="item in items" ng-class="{active: isActive(item)}"><a href="#{{item.path}}">{{item.title}}</a></li>
+</ul>
+<div ng-view></div>*/
+   
+    
+
+</script>
+
+<style type="text/css" media="screen">
+ul li.active a {
+    background: blue;
+    color: #f6f6f6;
+    display: inline-block; padding: 5px;
+    padding: 10px;
+}
+    
+</style>
+</body>
+</html>
