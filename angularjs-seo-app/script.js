@@ -8,7 +8,6 @@
     scotchApp.config(function($routeProvider, $locationProvider) {
         $routeProvider
 
-            // route for the home page
             .when('/', {
 				title : 'Home',
 				robots : 'follow,index',
@@ -18,7 +17,6 @@
                 controller  : 'mainController'
             })
 
-            // route for the about page
             .when('/insult-hosepipe-salmon', {
 				title : 'Insult Hosepipe Salmon - A Joke',
 				robots : 'noindex',
@@ -26,15 +24,18 @@
 				canonical : 'http://angular.abertram.com/insult-hosepipe-salmon',
                 templateUrl : 'pages/insult-hosepipe-salmon.php',
                 controller  : 'mainController'
-            })            // route for the about page
+            }) 
+			
             .when('/applause-rudder-teapot', {
 				title : 'Applause Rudder Teapot - An Idea',
 				robots : 'follow,index',
 				description : 'What if you want your rudder teapot (or your teapot\'s rudder) to have a noise? Our guide to implementing an applause (or any laugh track) track on your rudder teapot is what you need.',
 				canonical : 'http://angular.abertram.com/applause-rudder-teapot',
                 templateUrl : 'pages/applause-rudder-teapot.php',
-                controller  : 'mainController'
-            })            // route for the about page
+                controller  : 'mainController',
+                dynamicLink : "immediate-redirect"
+            }) 
+			
             .when('/laptop-coatrack-barge', {
 				title : 'Laptop Coatrack Barge - Order Now',
 				robots : 'follow,index',
@@ -51,6 +52,32 @@
                 templateUrl : 'pages/orphan-purple-roadworks.php',
                 controller  : 'mainController'
             })
+			.when('/secondary-nephew-cake', {
+				title : 'Secondary Nephew Cake',
+				robots : 'follow,index',
+				description : 'A page which would be impossible to find.',
+				canonical : 'http://angular.abertram.com/secondary-nephew-cake',
+                templateUrl : 'pages/secondary-nephew-cake.php',
+                controller  : 'mainController'
+            })
+            
+			.when('/immediate-redirect', {
+				title : 'Secondary Nephew Cake',
+				robots : 'immediateredirect',
+				description : 'A page which would be impossible to find.',
+				canonical : 'http://angular.abertram.com/secondary-nephew-cake',
+                templateUrl : 'pages/secondary-nephew-cake.php',
+                controller  : 'mainController'
+            })
+            
+			.when('/immediate-redirect-target', {
+				title : 'Immediate Redirect Target',
+				robots : 'index, nofollow',
+				description : 'Immediate Redirect Target',
+				canonical : 'http://angular.abertram.com/immediate-redirect-target',
+                templateUrl : 'pages/secondary-nephew-cake.php',
+                controller  : 'mainController'
+            })
 
 		 $locationProvider.html5Mode(true);
     });
@@ -59,6 +86,24 @@
 			$rootScope.title = current.$$route.title;
 			$rootScope.description = current.$$route.description;
 			$rootScope.canonical = current.$$route.canonical;
-			$rootScope.robots = current.$$route.robots;
+            $rootScope.robots = current.$$route.robots
+            $rootScope.dynamicLink = current.$$route.dynamicLink
+            if(current.$$route.robots == "immediateredirect"){
+                window.location.href = "http://angular.abertram.com/immediate-redirect-target"
+            }
 		});
 	 }]);
+
+    // create the controller and inject Angular's $scope
+    scotchApp.controller('mainController', function($scope) {
+        // create a message to display in our view
+        $scope.message = 'Everyone come and see how good I look!';
+    });
+
+    scotchApp.controller('aboutController', function($scope) {
+        $scope.message = 'Look! I am an about page.';
+    });
+
+    scotchApp.controller('contactController', function($scope) {
+        $scope.message = 'Contact us! JK. This is just a demo.';
+    });
